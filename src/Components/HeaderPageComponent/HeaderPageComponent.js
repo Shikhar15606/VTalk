@@ -19,13 +19,10 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
           setprofilepic(user.photoURL);
         } else {
           setisloggedin(false);
-          setisloggedin(false);
           setprofilepic(null);
           setname(null);
-          setemail(null);
         }
       });
-
     var provider = new firebase.auth.GoogleAuthProvider();
     var db = firebase.firestore();
     var login = (event) => {
@@ -41,15 +38,27 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
                 .then(function(querySnapshot) {
                     console.log("Then Block", querySnapshot);
                     if (querySnapshot.docs.length !== 0) {
+                        querySnapshot.forEach(function(doc) {
+                            db.collection("users").doc(user.email).update({
+                                isonline:false
+                            })
+                            .then(()=>{
+                                console.log("Logged In");
+                            })
+                            .catch((e)=>{
+                                console.log("Error in online setting",e);
+                            })
+                        });
                             console.log("Already Registered !");
                     } else {
                         console.log("Not Already Registered !!!");
-                        db.collection("users").add({
+                        db.collection("users").doc(user.email).set({
                                 Name: user.displayName,
                                 Email: user.email,
                                 ProfilePic: user.photoURL,
                                 CreatedAt: new Date(),
-                                uid: user.uid
+                                uid: user.uid,
+                                isonline:true
                             })
                             .then(function() {
                                 console.log("Document successfully written!");
@@ -79,7 +88,16 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
     var logout = (event)=>{
         event.preventDefault();
         firebase.auth().signOut().then(function() {
-            console.log("Logged Out");
+            db.collection("users").doc(email).update({
+                isonline:false
+            })
+            .then(()=>{
+                setemail(null);
+                console.log("Logged Out");
+            })
+            .catch((e)=>{
+                console.log("Error in online setting",e);
+            })
           }).catch(function(error) {
             console.log("Some error in logging out");
           });
