@@ -7,11 +7,8 @@ import {
     NavbarToggler,
   } from 'reactstrap';
 
-function HeaderPageComponent(props) {
-    const [name , setname ] = useState(null);
-    const [email , setemail ] = useState(null);
-    const [profilepic , setprofilepic ] = useState(null);
-    const [isloggedin , setisloggedin ] = useState(false);
+function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilepic,isloggedin,setisloggedin}) {
+    
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     firebase.auth().onAuthStateChanged(function(user) {
