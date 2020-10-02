@@ -40,7 +40,7 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
                     if (querySnapshot.docs.length !== 0) {
                         querySnapshot.forEach(function(doc) {
                             db.collection("users").doc(user.email).update({
-                                isonline:false
+                                isonline:true
                             })
                             .then(()=>{
                                 console.log("Logged In");
@@ -113,7 +113,7 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
                 <React.Fragment>
                     <ul className = "navbar-nav ml-auto" >
                         <li className ="nav-item">
-                            <img src= {profilepic} alt={profilepic} style={{maxWidth:"55px",maxHeight:"55px"}} class="rounded-circle" />
+                            <img src= {profilepic} alt={profilepic} style={{maxWidth:"55px",maxHeight:"55px"}} className="rounded-circle" />
                         </li> 
                     </ul>
                     <ul className = "navbar-nav" >

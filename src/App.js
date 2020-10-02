@@ -16,8 +16,8 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <HeaderPageComponent name={name} setname={setname} email={email} setemail={setemail} profilepic={profilepic} setprofilepic={setprofilepic} isloggedin={isloggedin} setisloggedin={setisloggedin} />
-          <Route path="/home" component={HomePageComponent} />
-          <Route exact path="/" component={HomePageComponent} />
+          <Route path="/home" component={() => <HomePageComponent isloggedin={isloggedin} />}/>
+          <Route exact path="/" component={() => <HomePageComponent isloggedin={isloggedin} email={email} />}/>
       </div>
     </BrowserRouter>
   );
