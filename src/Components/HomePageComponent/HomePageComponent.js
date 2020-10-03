@@ -1,31 +1,30 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import firebase from 'firebase';
 
 function HomePageComponent({isloggedin,email}) {
+    console.log("Whole Component Rerendered");
     const [isloading,setisloading] = useState(true);
     var provider = new firebase.auth.GoogleAuthProvider();
     var db = firebase.firestore();
     const [list,setlist] = useState([]);
     // simple array becomes undefined in return 
-    if(isloading === true){
-        // else it will result in infinite loop
-        db.collection("users")
-        .get()
-        .then(function(querySnapshot) {
+
+    useEffect(()=>{
+    {
+        console.log(isloading);
+        db.collection("users").onSnapshot(function(querySnapshot) {
             let data = [];
-            querySnapshot.forEach(function(doc) {
-                if(doc.data().Email !== email )
-                data.push({name:doc.data().Name,image:doc.data().ProfilePic,isonline:doc.data().isonline});
-            })
-            console.log(data);
-            setlist(data);
-            setisloading(false);
-        }
-        )
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
-        }); 
-    }
+                querySnapshot.forEach(function(doc) {
+                    if(doc.data().Email !== email )
+                    data.push({name:doc.data().Name,image:doc.data().ProfilePic,isonline:doc.data().isonline});
+                })
+                console.log("data",data);
+                setlist(data);
+                setisloading(false);
+        });
+    } 
+    },[])
+    
     if(isloggedin)
     {
     return (
