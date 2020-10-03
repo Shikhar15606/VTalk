@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import firebase from 'firebase';
+import {Link} from 'react-router-dom';
 
 function HomePageComponent({isloggedin,email}) {
     console.log("Whole Component Rerendered");
@@ -16,7 +17,7 @@ function HomePageComponent({isloggedin,email}) {
             let data = [];
                 querySnapshot.forEach(function(doc) {
                     if(doc.data().Email !== email )
-                    data.push({name:doc.data().Name,image:doc.data().ProfilePic,isonline:doc.data().isonline});
+                    data.push({name:doc.data().Name,image:doc.data().ProfilePic,isonline:doc.data().isonline,email:doc.data().Email});
                 })
                 console.log("data",data);
                 setlist(data);
@@ -36,8 +37,9 @@ function HomePageComponent({isloggedin,email}) {
                     list.map(item => (
                         (
                             <div className="col-12 col-md-8 offset-md-2 my-1">
+                                <Link to={`/chat/${item.email}`} style={{textDecoration:"none",color:"black"}}>
                                 <div className="row">
-                                <div style={{width:"55px",height:"55px",marginLeft:"10px",marginRight:"10px"}}>
+                                <div style={{width:"55px",height:"55px",marginLeft:"10px"}}>
                                     <img src= {item.image} alt={item.name} style={{width:"55px",height:"55px"}} className="rounded-circle"/>
                                     {
                                         item.isonline ?
@@ -47,11 +49,17 @@ function HomePageComponent({isloggedin,email}) {
                                         <span></span>
                                     }
                                 </div>
-                                <div className="col-9 col-md-10" >
-                                    <h5 style={{textAlign:"left"}} >{item.name}</h5>
+                                <div className="col-7 col-md-8 offset-2 offset-md-1" >
+                                    <div className="row">
+                                        <h5 style={{textAlign:"left"}} >{item.name}</h5>
+                                    </div>
+                                    <div className="row">
+                                        <h7>{item.email}</h7>
+                                    </div>
                                 </div>
                                 </div>
                                 <hr />
+                                </Link>
                             </div>
                         )
                     ))
