@@ -13,10 +13,10 @@ function HomePageComponent({isloggedin,email}) {
     useEffect(()=>{
     {
         console.log(isloading);
-        db.collection("users").onSnapshot(function(querySnapshot) {
+        db.collection("users").where("Email", "!=", email)
+        .onSnapshot(function(querySnapshot) {
             let data = [];
                 querySnapshot.forEach(function(doc) {
-                    if(doc.data().Email !== email )
                     data.push({name:doc.data().Name,image:doc.data().ProfilePic,isonline:doc.data().isonline,email:doc.data().Email});
                 })
                 console.log("data",data);
