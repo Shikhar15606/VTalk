@@ -19,7 +19,7 @@ function ChatPageComponent({isloggedin,email}) {
     let sendmsg = (e) =>{
         e.preventDefault();
         // Add a new document with a generated id.
-        if(e.target.value != '')
+        if(e.target.value == '')
         db.collection("messages").add({
             createdAt:new Date(),
             isview:false,
