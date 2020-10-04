@@ -112,7 +112,7 @@ function ChatPageComponent({isloggedin,email}) {
             </div>
             <br/>
             <br/>
-            <div className="col-12 col-md-8 offset-md-2">
+            <div className="col-12 col-md-8 offset-md-2" style={{marginBottom:"70px"}}>
             {    
                     msg.length != 0 ?
                     msg.map(item => (
