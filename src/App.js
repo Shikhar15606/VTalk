@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <HeaderPageComponent name={name} setname={setname} email={email} setemail={setemail} profilepic={profilepic} setprofilepic={setprofilepic} isloggedin={isloggedin} setisloggedin={setisloggedin} />
+        <HeaderPageComponent name={name} setname={setname} email={email} setemail={setemail} profilepic={profilepic} setprofilepic={setprofilepic} isloggedin={isloggedin} setisloggedin={setisloggedin}/>
         <Switch>
           <Route exact path="/home" component={() => <HomePageComponent isloggedin={isloggedin} email={email}/>}/>
           <Route exact path="/" component={() => <HomePageComponent isloggedin={isloggedin} email={email} />}/>

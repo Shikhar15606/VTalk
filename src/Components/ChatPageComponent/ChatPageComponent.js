@@ -103,7 +103,11 @@ function ChatPageComponent({isloggedin,email}) {
             {
             isloading ?
             <div>
-                <h1>Loading ...</h1>
+                <div className="text-center">
+                <div className="spinner-border text-primary" style={{width: "4rem",height: "4rem",marginTop:"20%"}} role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                </div>
             </div>
             :
             <div>
@@ -187,9 +191,19 @@ function ChatPageComponent({isloggedin,email}) {
     );
     else{
         return(
+            !isloading ?
             <div>
-                404
+                <h1>Page Not Found</h1>
             </div>
+            :
+            <React.Fragment>
+                <div className="text-center">
+                <div className="spinner-border text-primary" style={{width: "4rem",height: "4rem",marginTop:"20%"}} role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                </div>
+            </React.Fragment>
+
         )
     }
 }

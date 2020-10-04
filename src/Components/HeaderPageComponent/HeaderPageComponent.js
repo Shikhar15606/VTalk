@@ -10,14 +10,17 @@ import {
 function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilepic,isloggedin,setisloggedin}) {
     
     const [isOpen, setIsOpen] = useState(false);
+    const [isloading,setisloading] = useState(true);
     const toggle = () => setIsOpen(!isOpen);
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
+          setisloading(false);
           setisloggedin(true);
           setemail(user.email);
           setname(user.displayName);
           setprofilepic(user.photoURL);
         } else {
+          setisloading(false);
           setisloggedin(false);
           setprofilepic(null);
           setname(null);
@@ -102,6 +105,7 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
             console.log("Some error in logging out");
           });
     }
+    if(!isloading)
     return ( 
     <div>
       <Navbar color="light" light expand="md">
@@ -138,6 +142,13 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
       </Navbar>
     </div>
     );
+    else{
+        return(
+            <div>
+                
+            </div>
+        );
+    }
 }
 
 export default HeaderPageComponent;

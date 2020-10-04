@@ -43,7 +43,9 @@ function HomePageComponent({isloggedin,email}) {
                                     <img src= {item.image} alt={item.name} style={{width:"55px",height:"55px"}} className="rounded-circle"/>
                                     {
                                         item.isonline ?
-                                        <div style={{zIndex:1,borderRadius:"50%",top:"45px",left:"58px",width:"11px",height:"11px",backgroundColor:"rgb(2 161 253)",position:"absolute"}}>
+                                        <div style={{zIndex:1,borderRadius:"50%",top:"35px",left:"50px",width:"21px",height:"21px",backgroundColor:"white",position:"absolute"}}>
+                                            <div style={{zIndex:2,borderRadius:"50%",top:"4px",left:"4px",width:"11px",height:"11px",backgroundColor:"rgb(2 161 253)",position:"absolute"}}>
+                                            </div>
                                         </div>
                                         :
                                         <span></span>
@@ -67,7 +69,11 @@ function HomePageComponent({isloggedin,email}) {
             </div>
             :
             <div>
-                <h1>Loading ....</h1>
+               <div className="text-center">
+                <div className="spinner-border text-primary" style={{width: "4rem",height: "4rem",marginTop:"20%"}} role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+               </div>
             </div>
             }
         </React.Fragment>
@@ -75,8 +81,17 @@ function HomePageComponent({isloggedin,email}) {
     }
     else{
     return(
+        !isloading ?
         <React.Fragment>
             <h1>Login First</h1>
+        </React.Fragment>
+        :
+        <React.Fragment>
+        <div className="text-center">
+        <div className="spinner-border text-primary" style={{width: "4rem",height: "4rem",marginTop:"20%"}} role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+        </div>
         </React.Fragment>
     )
     }
