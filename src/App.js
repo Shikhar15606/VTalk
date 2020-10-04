@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import logo from './logo.svg';
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css'; 
 import './App.css';
 import HomePageComponent from './Components/HomePageComponent/HomePageComponent';
 import HeaderPageComponent from '../src/Components/HeaderPageComponent/HeaderPageComponent';

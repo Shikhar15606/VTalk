@@ -105,7 +105,7 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
     return ( 
     <div>
       <Navbar color="light" light expand="md">
-      <Link className = "navbar-brand" to = "/home" > V Chat </Link> 
+      <Link className = "navbar-brand mytalk" to = "/home">V Talk</Link> 
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
         

@@ -36,7 +36,7 @@ function HomePageComponent({isloggedin,email}) {
                 {    
                     list.map(item => (
                         (
-                            <div className="col-12 col-md-8 offset-md-2 my-1">
+                            <div className="col-12 col-md-8 offset-md-2 my-1 user-list">
                                 <Link to={`/chat/${item.email}`} style={{textDecoration:"none",color:"black"}}>
                                 <div className="row">
                                 <div style={{width:"55px",height:"55px",marginLeft:"10px"}}>
