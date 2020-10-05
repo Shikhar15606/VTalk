@@ -20,7 +20,7 @@ body {
 }
 
 .speech-wrapper {
-  padding: 30px 40px;
+  padding: 10px 10px;
 }
 .speech-wrapper .bubble {
   max-width: 100%;
@@ -109,4 +109,42 @@ body {
 }
 .user-list{
   font-family: 'Ubuntu', sans-serif;
+}
+
+.space-giver{
+  margin-top: 76px;
+}
+@media (max-width: 768px){
+  .space-giver{
+    margin-top: 55px;
+  }
+}
+
+.google-btn{
+  display: inline-block;
+  color:white;
+  font-family: 'Balsamiq Sans', cursive;
+  background-color: red;
+  width: 225px;
+  padding: 5px;
+  border-radius: 5px;
+  background: #db3236;
+  border:0px transparent;  
+  margin:5px;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: left;
+}
+
+#google-text{
+  margin-left: 13px;
+}
+
+#google-icon{
+  margin-left: 5px;
+}
+
+.google-btn:hover{
+  background: #db3236;
+  opacity: 0.6;
 }

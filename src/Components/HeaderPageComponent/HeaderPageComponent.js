@@ -108,7 +108,7 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
     if(!isloading)
     return ( 
     <div>
-      <Navbar color="light" light expand="md">
+      <Navbar color="light" light expand="md" fixed="top">
       <Link className = "navbar-brand mytalk" to = "/home">V Talk</Link> 
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -134,7 +134,9 @@ function HeaderPageComponent({name,setname,email,setemail,profilepic,setprofilep
                 :
                 <ul className = "navbar-nav ml-auto" >
                     <li className = "nav-item" >
-                        <button className = "btn btn-outline-success my-2 my-sm-0" type = "submit" onClick = {login}>Login</button> 
+                        <div>
+                            <button className="google-btn" onClick={login}><i class="fa fa-google-plus" id="google-icon" aria-hidden="true"></i><span id="google-text">Login with Google</span> </button>
+                        </div>
                     </li>
                 </ul>
                 }  

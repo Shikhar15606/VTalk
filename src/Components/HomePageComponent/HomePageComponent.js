@@ -32,7 +32,7 @@ function HomePageComponent({isloggedin,email}) {
         <React.Fragment>
             {
             !isloading ?
-            <div>
+            <div style={{marginTop:"80px"}}>
                 {    
                     list.map(item => (
                         (
@@ -51,7 +51,7 @@ function HomePageComponent({isloggedin,email}) {
                                         <span></span>
                                     }
                                 </div>
-                                <div className="col-7 col-md-8 offset-2 offset-md-1" >
+                                <div className="col-7 col-md-8 offset-1 offset-md-1" >
                                     <div className="row">
                                         <h5 style={{textAlign:"left"}} >{item.name}</h5>
                                     </div>
@@ -81,10 +81,10 @@ function HomePageComponent({isloggedin,email}) {
     }
     else{
     return(
-        !isloading ?
-        <React.Fragment>
+        isloading === false ?
+        <div style={{marginTop:"20%"}}>
             <h1>Login First</h1>
-        </React.Fragment>
+        </div>
         :
         <React.Fragment>
         <div className="text-center">

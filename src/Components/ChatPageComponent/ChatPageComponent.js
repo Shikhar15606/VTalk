@@ -1,7 +1,6 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import {useParams} from 'react-router-dom';
 import firebase from 'firebase';
-var FA = require('react-fontawesome')
 
 function ChatPageComponent({isloggedin,email}) {
     console.log(isloggedin,email)
@@ -17,9 +16,8 @@ function ChatPageComponent({isloggedin,email}) {
     var db = firebase.firestore();
 
     let sendmsg = (e) =>{
-        e.preventDefault();
         // Add a new document with a generated id.
-        if(e.target.value == '')
+        if(inputmsg.length !== 0)
         db.collection("messages").add({
             createdAt:new Date(),
             isview:false,
@@ -40,6 +38,7 @@ function ChatPageComponent({isloggedin,email}) {
         setinputmsg(e.target.value);
     }
 
+
     useEffect(()=>{
         db.collection("users").doc(emailid)
         .onSnapshot(function(doc) {
@@ -53,9 +52,8 @@ function ChatPageComponent({isloggedin,email}) {
     },[])
 
     useEffect(()=>{
-        setisloading(true);
         console.log("Loggedin user",email)
-        console.log("Other user",email)
+        console.log("Other user",emailid)
         if(email && emailid && isloggedin)
         db.collection("messages")
         .where("sender", "in", [email, emailid])
@@ -66,18 +64,16 @@ function ChatPageComponent({isloggedin,email}) {
                 querySnapshot.forEach(function(doc) {
                     if(doc.data().sender === email && doc.data().receiver === emailid)
                     {
-                        // let date = new Date(doc.data().createdAt)
-                        const date = new Date(Number(doc.data().createdAt));
                         // I am sender right side
+                        let date = new Date(doc.data().createdAt.toMillis())
                         let time = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })},${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-                        // console.log(time);
-                        data.push({right:true, message:doc.data().message, time:time, isseen:doc.data().isview})
+                        data.push({right:true, message:doc.data().message,time:time, isseen:doc.data().isview})
                     }
                     else if(doc.data().sender === emailid && doc.data().receiver === email)
                     {
-                        const date = new Date(Number(doc.data().createdAt));
+                        // I am receiver left side
+                        const date = new Date((doc.data().createdAt.toMillis()));
                         let time = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-
                         db.collection("messages").doc(doc.id)
                         .update({isview:true})
                         .then(()=>{
@@ -87,15 +83,13 @@ function ChatPageComponent({isloggedin,email}) {
                             console.log(err);
                         })
                         data.push({right:false,message:doc.data().message,time:time, isseen:doc.data().isview})
-                        // i am receiver left side
                     }
                 })
                 console.log("data",data);
                 setmsg(data);
                 setisloading(false);
         });
-    },[])
-
+    },[email])
 
     if(isloggedin)
     return (
@@ -111,7 +105,7 @@ function ChatPageComponent({isloggedin,email}) {
             </div>
             :
             <div>
-                <div className="col-12 col-md-8 offset-md-2" style={{backgroundColor:"#EA80FC"}}>
+                <div className="col-12 col-md-8 offset-md-2 space-giver" style={{backgroundColor:"#EA80FC",position:"fixed",zIndex:5}}>
                 <div className="row" style={{paddingTop:"10px",paddingBottom:"10px"}}>
                     <div className="col-3 col-md-2 offset-md-2">
                         <img src= {image} alt={image} style={{width:"55px",height:"55px"}} className="rounded-circle"/>
@@ -133,13 +127,13 @@ function ChatPageComponent({isloggedin,email}) {
                 </div>
             <br/>
             <br/>
-            <div className="col-12 col-md-8 offset-md-2">
+            <div className="col-12 col-md-8 offset-md-2" style={{marginTop:"110px"}}>
             <div class="speech-wrapper">
             {    
                     msg.length != 0 ?
                     msg.map(item => (
                         (
-                            <React.Fragment>
+                            <div>
                             {
                                 item.right ?
                                 <div class="bubble alt" style={{float:"right",clear:"both"}}>
@@ -168,7 +162,7 @@ function ChatPageComponent({isloggedin,email}) {
                                     </div>
                                 </div>
                             }
-                            </React.Fragment>
+                            </div>
                         )
                     ))
                     :
@@ -179,10 +173,10 @@ function ChatPageComponent({isloggedin,email}) {
             </div>
             <br/>
             <br/>
-            <div className="col-12 col-md-8 offset-md-2" style={{position:"fixed",bottom:"10px"}}>
+            <div className="col-12 col-md-8 offset-md-2" style={{position:"fixed",bottom:"0px"}}>
                 <div className="row" style={{display:"flex",flexWrap:"nowrap"}}>
-                        <input value={inputmsg} onChange={inputmsgchange} type="email" class="form-control" id="exampleInputEmail1" style={{flex:1}} aria-describedby="emailHelp" placeholder="Type a message"></input>
-                        <button className = "btn btn-outline-success" style={{minWidth:"50px"}} type = "submit" onClick = {sendmsg} >Send</button> 
+                        <textarea value={inputmsg} onChange={inputmsgchange} type="email" class="form-control" id="exampleInputEmail1" style={{flex:1}} aria-describedby="emailHelp" placeholder="Type a message"></textarea>
+                        <button className = "btn btn-success" style={{minWidth:"50px"}} type = "submit" onClick = {sendmsg} ><i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i></button> 
                 </div>
             </div>
             </div>
