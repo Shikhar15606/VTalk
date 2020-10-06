@@ -1,8 +1,10 @@
-import React, { useEffect,useState,useRef } from 'react';
+import React, { useEffect,useState} from 'react';
 import {useParams} from 'react-router-dom';
 import firebase from 'firebase';
+import {animateScroll as scroll } from "react-scroll";
 
 function ChatPageComponent({isloggedin,email}) {
+    let unsubscribe;
     console.log(isloggedin,email)
     const [isloading,setisloading] = useState(true);
     const [name,setname] = useState(null);
@@ -12,26 +14,27 @@ function ChatPageComponent({isloggedin,email}) {
     const [msg,setmsg] = useState([]);
     const { emailid } = useParams();
     console.log(emailid);
-    var provider = new firebase.auth.GoogleAuthProvider();
     var db = firebase.firestore();
 
     let sendmsg = (e) =>{
         // Add a new document with a generated id.
         if(inputmsg.length !== 0)
-        db.collection("messages").add({
-            createdAt:new Date(),
-            isview:false,
-            message:inputmsg,
-            receiver:emailid,
-            sender:email
-        })
-        .then(function(docRef) {
+        {
             setinputmsg("");
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
+            db.collection("messages").add({
+                createdAt:new Date(),
+                isview:false,
+                message:inputmsg,
+                receiver:emailid,
+                sender:email
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+        }
     }
     
     let inputmsgchange = (e)=>{
@@ -55,7 +58,8 @@ function ChatPageComponent({isloggedin,email}) {
         console.log("Loggedin user",email)
         console.log("Other user",emailid)
         if(email && emailid && isloggedin)
-        db.collection("messages")
+        {
+        unsubscribe = db.collection("messages")
         .where("sender", "in", [email, emailid])
         .orderBy("createdAt")
         .onSnapshot(function(querySnapshot) {
@@ -74,7 +78,7 @@ function ChatPageComponent({isloggedin,email}) {
                         // I am receiver left side
                         const date = new Date((doc.data().createdAt.toMillis()));
                         let time = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-                        db.collection("messages").doc(doc.id)
+                        {db.collection("messages").doc(doc.id)
                         .update({isview:true})
                         .then(()=>{
                             console.log("Success");
@@ -83,13 +87,23 @@ function ChatPageComponent({isloggedin,email}) {
                             console.log(err);
                         })
                         data.push({right:false,message:doc.data().message,time:time, isseen:doc.data().isview})
+                        }
                     }
                 })
                 console.log("data",data);
                 setmsg(data);
                 setisloading(false);
-        });
+                scroll.scrollToBottom();
+            });
+        }
     },[email])
+
+    useEffect(() => { 
+        return function cleanup () {
+          unsubscribe();
+          // if you return a function from useeffect then it will be executed after component unmounts
+        }
+     }, [])
 
     if(isloggedin)
     return (

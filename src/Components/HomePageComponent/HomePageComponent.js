@@ -4,8 +4,10 @@ import {Link} from 'react-router-dom';
 
 function HomePageComponent({isloggedin,email}) {
     console.log("Whole Component Rerendered");
+    let unsubscribe = ()=>{
+        console.log("No need For cleanup now");
+    };
     const [isloading,setisloading] = useState(true);
-    var provider = new firebase.auth.GoogleAuthProvider();
     var db = firebase.firestore();
     const [list,setlist] = useState([]);
     // simple array becomes undefined in return 
@@ -13,7 +15,7 @@ function HomePageComponent({isloggedin,email}) {
     useEffect(()=>{
     {
         console.log(isloading);
-        db.collection("users").where("Email", "!=", email)
+        unsubscribe = db.collection("users").where("Email", "!=", email)
         .onSnapshot(function(querySnapshot) {
             let data = [];
                 querySnapshot.forEach(function(doc) {
@@ -25,6 +27,14 @@ function HomePageComponent({isloggedin,email}) {
         });
     } 
     },[])
+
+    
+    useEffect(() => { 
+        return function cleanup () {
+          unsubscribe();
+          // if you return a function from useeffect then it will be executed after component unmounts
+        }
+     }, [])
     
     if(isloggedin)
     {
