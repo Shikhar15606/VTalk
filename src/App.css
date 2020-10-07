@@ -114,12 +114,6 @@ body {
 .space-giver{
   margin-top: 76px;
 }
-@media (max-width: 768px){
-  .space-giver{
-    margin-top: 55px;
-  }
-}
-
 .google-btn{
   display: inline-block;
   color:white;
@@ -147,4 +141,33 @@ body {
 .google-btn:hover{
   background: #db3236;
   opacity: 0.6;
+}
+
+.newmsgdot{
+  z-index: 2;
+  border-radius: 50%;
+  width: 11px;
+  height:11px;
+  background-color:rgb(2 161 253);
+  position: absolute;
+  right:25vw;
+  top:23px;
+}
+
+.top-margin{
+  margin-top: 90px;
+}
+
+
+@media (max-width: 768px){
+  .space-giver{
+    margin-top: 55px;
+  }
+  .top-margin{
+    margin-top: 70px;
+  }
+  .newmsgdot{
+    top:14px;
+    right: 15px;
+  }
 }
